@@ -1,0 +1,20 @@
+<launch>
+  <!-- Start Baxter Arm Tracking Based on Kinect -->
+  <arg name="skeleton" default="skeleton_frames.rviz" />
+ 
+  <!-- Fire up Microsoft Kinect V1 Openni driver -->
+  <include file="$(find openni_launch)/launch/openni.launch" />
+
+  <!-- Fire up Openni_tracker for skeleton recogonition -->
+  <node pkg="openni_tracker" name="openni_tracker" type="openni_tracker" output="screen">
+  </node>  
+
+  <!-- Fire up tf_listen_v8_puber -->
+  <node pkg="kinect_based_arm_tracking" name="kinect_based_arm_tracking_pubber" type="tf_listen_v8_puber.py" output="screen"> </node>
+
+  <!-- Fire uptf_listen_v8_controller -->
+  <node pkg="kinect_based_arm_tracking" name="kinect_based_arm_tracking_controller" type="tf_listen_v8_controller.py" output="screen"> </node>
+
+  <!-- Fire up rviz with skeleton_frames -->
+  <node pkg="rviz" type="rviz" name="rviz" args="-d $(find rbx1_vision)/skeleton_frames.rviz"/>
+</launch>
